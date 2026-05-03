@@ -6,15 +6,25 @@ require('dotenv').config();
 const app = express();
 
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://link-stash-alpha.vercel.app"
-];
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   "https://link-stash-alpha.vercel.app"
+// ];
 
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
+// app.use(cors({
+//   origin: allowedOrigins,
+//   credentials: true
+// }));
+
+app.use(
+  cors({
+    origin: "https://link-stash-alpha.vercel.app",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 
 app.use(express.json());
 
@@ -25,7 +35,7 @@ app.use('/api/links', require('./routes/links'));
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log('MongoDB connected');
-        app.listen(process.env.PORT || 3000, () =>
+        app.listen(process.env.PORT, () =>
             console.log(`Server running on port ${process.env.PORT}`)
         );
     })
