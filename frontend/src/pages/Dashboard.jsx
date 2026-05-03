@@ -90,6 +90,10 @@ export default function Dashboard() {
   };
 
   const cancelForm = () => { setForm(emptyForm); setAdding(false); setEditingId(null); };
+  const recentLinks = [...links]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 3);
+  const topTags = tags.slice(0, 4);
 
   const deleteLink = async (id) => {
     if (!confirm('Delete this link?')) return;
@@ -144,6 +148,55 @@ export default function Dashboard() {
 
       {/* BODY */}
       <main className="dash-body">
+        <section className="overview-grid">
+          <article className="overview-card">
+            <p className="overview-label">Quick status</p>
+            <h3>{links.length === 0 ? 'Start your first stash' : `You saved ${links.length} links`}</h3>
+            <p>
+              {links.length === 0
+                ? 'Add your first resource and build a searchable collection.'
+                : 'Keep momentum by adding at least one useful link every day.'}
+            </p>
+          </article>
+
+          <article className="overview-card">
+            <p className="overview-label">Popular tags</p>
+            {topTags.length > 0 ? (
+              <div className="overview-chip-wrap">
+                {topTags.map(tag => {
+                  const c = tagColor(tag);
+                  return (
+                    <button
+                      key={tag}
+                      className="overview-chip"
+                      style={{ background: c.bg, color: c.color, border: `1px solid ${c.border}` }}
+                      onClick={() => setActiveTag(activeTag === tag ? '' : tag)}
+                    >
+                      {tag}
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <p>Add tags while saving links to unlock fast filtering.</p>
+            )}
+          </article>
+
+          <article className="overview-card">
+            <p className="overview-label">Recently added</p>
+            {recentLinks.length > 0 ? (
+              <ul className="recent-links-list">
+                {recentLinks.map((link) => (
+                  <li key={link._id}>
+                    <a href={link.url} target="_blank" rel="noreferrer">{link.title || getDomain(link.url)}</a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>Your latest saved links will appear here.</p>
+            )}
+          </article>
+        </section>
 
         {/* FORM */}
         {adding && (

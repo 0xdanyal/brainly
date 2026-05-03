@@ -6,19 +6,14 @@ require('dotenv').config();
 const app = express();
 
 
-// const allowedOrigins = [
-//   "http://localhost:5173",
-//   "https://link-stash-alpha.vercel.app"
-// ];
-
-// app.use(cors({
-//   origin: allowedOrigins,
-//   credentials: true
-// }));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://link-stash-alpha.vercel.app"
+];
 
 app.use(
   cors({
-    origin: "https://link-stash-alpha.vercel.app",
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
