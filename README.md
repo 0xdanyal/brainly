@@ -1,13 +1,13 @@
-# 🔗 LinkStash
+# 🔗 Brainly
 
 **Your personal web library.**  
 Save links instantly with titles, notes & tags — then find them in seconds.
 
 ---
 
-## ✨ What is LinkStash?
+## ✨ What is Brainly?
 
-**LinkStash** is a clean, fast, personal link manager built for people who are tired of messy browser bookmarks.
+**Brainly** is a clean, fast, personal link manager built for people who are tired of messy browser bookmarks.
 
 No bloat. No unnecessary features.
 
@@ -45,7 +45,7 @@ Think of it as your **private version of Raindrop.io — but simpler, faster, an
 | **Authentication** | JWT (JSON Web Tokens) |
 | **Styling** | Pure CSS with custom properties |
 | **Fonts** | Plus Jakarta Sans + Syne |
-| **Deployment** | Vercel (Frontend) + Render (Backend) |
+| **Deployment** | Vercel (Frontend) + Railway (Backend) |
 
 ---
 
@@ -64,8 +64,8 @@ Make sure you have:
 ## 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/LinkStash.git
-cd LinkStash
+git clone https://github.com/0xdanyal/brainly.git
+cd brainly
 
 ```
 
