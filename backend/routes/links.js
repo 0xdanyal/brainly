@@ -19,10 +19,11 @@ async function fetchMeta(url) {
 // GET all links (with optional tag filter & search)
 router.get('/', auth, async (req, res) => {
     try {
-        const { tag, q } = req.query;
+        const { tag, q, group } = req.query;
         let query = { user: req.user.id };
 
         if (tag) query.tags = tag;
+        if (group) query.group = group;
         if (q) query.$or = [
             { title: { $regex: q, $options: 'i' } },
             { description: { $regex: q, $options: 'i' } },
@@ -39,7 +40,7 @@ router.get('/', auth, async (req, res) => {
 // POST add link
 router.post('/', auth, async (req, res) => {
     try {
-        let { url, title, description, tags } = req.body;
+        let { url, title, description, tags, group } = req.body;
 
         // Auto-fetch title if not provided
         if (!title) title = await fetchMeta(url);
@@ -48,6 +49,7 @@ router.post('/', auth, async (req, res) => {
             user: req.user.id,
             url, title, description,
             tags: tags || [],
+            group: group || 'General',
         });
         res.status(201).json(link);
     } catch (err) {
@@ -85,6 +87,16 @@ router.get('/tags', auth, async (req, res) => {
         const links = await Link.find({ user: req.user.id });
         const tags = [...new Set(links.flatMap(l => l.tags))];
         res.json(tags);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// GET all unique groups for the user
+router.get('/groups', auth, async (req, res) => {
+    try {
+        const groups = await Link.distinct('group', { user: req.user.id });
+        res.json(groups.filter(Boolean));
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

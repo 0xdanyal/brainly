@@ -2,9 +2,137 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
-import Logo from '../components/Logo';
-import '../styles/global.css';
-import '../styles/login.css';
+
+const CSS = `
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap');
+
+  .auth-page {
+    min-height: 100vh;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Sans', sans-serif;
+    padding: 24px;
+  }
+
+  .auth-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .auth-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 32px;
+    text-decoration: none;
+  }
+  .auth-logo-icon {
+    width: 30px; height: 30px;
+    background: #111;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .auth-logo-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 15px;
+    color: #111;
+    letter-spacing: -0.01em;
+  }
+
+  .auth-heading {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px;
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 6px;
+  }
+  .auth-sub {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .auth-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+  .auth-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .auth-field input {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 9px 12px;
+    background: #fafafa;
+    color: #111;
+    outline: none;
+    transition: border-color .15s, background .15s;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .auth-field input:focus {
+    border-color: #111;
+    background: #fff;
+  }
+
+  .auth-error {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: #c53030;
+    background: #fff5f5;
+    border: 1px solid #fed7d7;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+  }
+
+  .auth-submit {
+    width: 100%;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: opacity .15s;
+  }
+  .auth-submit:hover { opacity: .8; }
+  .auth-submit:disabled { opacity: .4; cursor: not-allowed; }
+
+  .auth-footer {
+    font-size: 13px;
+    color: #666;
+    margin-top: 20px;
+    text-align: center;
+  }
+  .auth-footer a {
+    color: #111;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+`;
 
 export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -15,86 +143,73 @@ export default function Login() {
 
   const submit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError('');
+    setLoading(true);
     try {
       const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, form);
       login(data.token, data.email);
-      nav('/');
+      nav('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid email or password');
+      setError(err.response?.data?.message || 'Login failed');
     }
     setLoading(false);
   };
 
   return (
-    <div className="landing-page">
-      <header className="landing-topbar">
-        <Logo />
-        <Link className="landing-register-link" to="/register">Create free account</Link>
-      </header>
+    <>
+      <style>{CSS}</style>
+      <div className="auth-page">
+        <div className="auth-card">
 
-      <section className="landing-hero">
-        <div className="landing-hero-left">
-          <span className="landing-pill">Save once. Find instantly.</span>
-          <h1 className="landing-title">Turn your open tabs into an organized knowledge vault.</h1>
-          <p className="landing-subtitle">
-            LinkStash helps you capture important links, tag them by topic, and retrieve anything in seconds.
-            No more hunting through browser history when you need that one resource.
-          </p>
-          <div className="landing-points">
-            <div className="landing-point">
-              <span className="landing-point-icon">01</span>
-              <div>
-                <h3>Save links with context</h3>
-                <p>Store URL, title, and quick notes so every saved link has meaning.</p>
-              </div>
+          {/* Logo */}
+          <a href="/" className="auth-logo">
+            <div className="auth-logo-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"
+                strokeLinecap="round" strokeLinejoin="round" style={{ width: 16, height: 16 }}>
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                <line x1="9" y1="10" x2="15" y2="10" />
+              </svg>
             </div>
-            <div className="landing-point">
-              <span className="landing-point-icon">02</span>
-              <div>
-                <h3>Tag by project or topic</h3>
-                <p>Organize links with tags like work, react, ideas, docs, or personal.</p>
-              </div>
-            </div>
-            <div className="landing-point">
-              <span className="landing-point-icon">03</span>
-              <div>
-                <h3>Find anything instantly</h3>
-                <p>Use one search bar to quickly get back to exactly what you saved.</p>
-              </div>
-            </div>
-          </div>
-        </div>
+            <span className="auth-logo-text">Brainly</span>
+          </a>
 
-        <div className="auth-card landing-auth-card">
-          <div className="auth-logo-wrap">
-            <Logo size="sm" />
-          </div>
-          <span className="auth-highlight">Welcome back</span>
-          <h2 className="auth-heading">Sign in to your stash</h2>
-          <p className="auth-subheading">Keep your best links organized and searchable.</p>
+          <h1 className="auth-heading">Welcome back</h1>
+          <p className="auth-sub">Sign in to access your link library.</p>
+
           {error && <div className="auth-error">{error}</div>}
-          <form className="auth-form" onSubmit={submit}>
+
+          <form onSubmit={submit}>
             <div className="auth-field">
-              <label className="form-label">Email address</label>
-              <input type="email" placeholder="you@example.com" value={form.email}
-                onChange={e => setForm({ ...form, email: e.target.value })} required autoComplete="email" />
+              <label className="auth-label">Email</label>
+              <input
+                type="email"
+                placeholder="you@example.com"
+                value={form.email}
+                onChange={e => setForm({ ...form, email: e.target.value })}
+                required
+              />
             </div>
             <div className="auth-field">
-              <label className="form-label">Password</label>
-              <input type="password" placeholder="Enter your password" value={form.password}
-                onChange={e => setForm({ ...form, password: e.target.value })} required autoComplete="current-password" />
+              <label className="auth-label">Password</label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                value={form.password}
+                onChange={e => setForm({ ...form, password: e.target.value })}
+                required
+              />
             </div>
-            <button type="submit" className="btn-primary" disabled={loading} style={{ marginTop: 8 }}>
-              {loading ? 'Signing in...' : 'Sign in'}
+            <button type="submit" className="auth-submit" disabled={loading}>
+              {loading ? 'Signing in…' : 'Sign in'}
             </button>
           </form>
-          <div className="auth-footer">
-            New to LinkStash? <Link to="/register">Create one free</Link>
-          </div>
+
+          <p className="auth-footer">
+            No account? <Link to="/register">Create one</Link>
+          </p>
+
         </div>
-      </section>
-    </div>
+      </div>
+    </>
   );
 }

@@ -1,5 +1,4 @@
-/* ── DASHBOARD LAYOUT ── */
-.dash-page {
+── DASHBOARD LAYOUT ── .dash-page {
   width: 100%;
   min-height: 100vh;
   background: var(--color-bg);
@@ -92,9 +91,11 @@
 .dash-hero::before {
   content: '';
   position: absolute;
-  top: -60px; right: -60px;
-  width: 280px; height: 280px;
-  background: rgba(255,255,255,0.06);
+  top: -60px;
+  right: -60px;
+  width: 280px;
+  height: 280px;
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -102,9 +103,11 @@
 .dash-hero::after {
   content: '';
   position: absolute;
-  bottom: -80px; left: 30%;
-  width: 200px; height: 200px;
-  background: rgba(255,255,255,0.04);
+  bottom: -80px;
+  left: 30%;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -122,7 +125,7 @@
 
 .dash-hero-sub {
   font-size: 15px;
-  color: rgba(255,255,255,0.72);
+  color: rgba(255, 255, 255, 0.72);
   margin-bottom: 28px;
   position: relative;
   z-index: 1;
@@ -150,7 +153,7 @@
 }
 
 .dash-search-wrap:focus-within {
-  border-color: rgba(255,255,255,0.5);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .dash-search-wrap input {
@@ -212,13 +215,13 @@
 }
 
 .dash-add-btn.is-cancel {
-  background: rgba(255,255,255,0.18);
+  background: rgba(255, 255, 255, 0.18);
   color: #fff;
   box-shadow: none;
 }
 
 .dash-add-btn.is-cancel:hover {
-  background: rgba(255,255,255,0.26);
+  background: rgba(255, 255, 255, 0.26);
   transform: none;
 }
 
@@ -340,7 +343,7 @@
   flex-direction: column;
 }
 
-.form-field + .form-field {
+.form-field+.form-field {
   margin-top: 14px;
 }
 
@@ -654,7 +657,8 @@
   }
 
   .dash-stats {
-    display: none; /* hide stat pills on small screens */
+    display: none;
+    /* hide stat pills on small screens */
   }
 
   .dash-email {

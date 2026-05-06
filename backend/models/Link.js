@@ -6,6 +6,7 @@ const linkSchema = new mongoose.Schema({
     title: { type: String, default: '' },
     description: { type: String, default: '' },
     tags: [{ type: String }],
+    group: { type: String, default: 'General' },
     createdAt: { type: Date, default: Date.now },
 });
 
