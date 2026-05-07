@@ -8,7 +8,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://link-stash-alpha.vercel.app"
+  "https://brainly-save.vercel.app/"
 ];
 
 app.use(
